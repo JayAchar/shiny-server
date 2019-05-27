@@ -3,7 +3,17 @@ language: r
 services:
   - docker
 
-before_install:
+os:
+  - linux
+
+r:
+  - oldrel
+  - release
+  - devel
+
+install:
   - docker build -t shiny-server .
-  - docker run -p 80:80 shiny-server
-  - docker ps -a
+  - docker run -d -p 127.0.0.1:80:80 --name shiny shiny-server
+
+script:
+  - docker ps | grep -q shiny
